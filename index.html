@@ -1,0 +1,217 @@
+<div id="promptGenerator">
+  <style>
+    #promptGenerator{
+      max-width:700px;
+      margin:20px auto;
+      padding:20px;
+      background:#111;
+      color:#fff;
+      border-radius:16px;
+      font-family:Arial,sans-serif;
+      box-sizing:border-box;
+    }
+
+    #promptGenerator h2{
+      text-align:center;
+      margin-top:0;
+      color:#00e5ff;
+    }
+
+    #promptGenerator label{
+      display:block;
+      margin:14px 0 6px;
+      font-weight:bold;
+    }
+
+    #promptGenerator input,
+    #promptGenerator select,
+    #promptGenerator textarea{
+      width:100%;
+      padding:12px;
+      border:1px solid #333;
+      border-radius:9px;
+      background:#1d1d1d;
+      color:#fff;
+      box-sizing:border-box;
+      font-size:15px;
+    }
+
+    #promptGenerator textarea{
+      min-height:180px;
+      resize:vertical;
+    }
+
+    .pg-btn{
+      width:100%;
+      margin-top:16px;
+      padding:13px;
+      border:0;
+      border-radius:10px;
+      background:#00c853;
+      color:white;
+      font-size:16px;
+      font-weight:bold;
+      cursor:pointer;
+    }
+
+    .pg-btn:hover{
+      opacity:.9;
+    }
+
+    .pg-copy{
+      background:#2979ff;
+    }
+
+    .pg-result{
+      margin-top:20px;
+    }
+
+    .pg-title{
+      margin:15px 0 7px;
+      color:#00e5ff;
+      font-weight:bold;
+    }
+  </style>
+
+  <h2>🎨 AI Prompt Generator</h2>
+
+  <label>📌 Tema / Ide</label>
+  <input id="pgTema" type="text"
+    placeholder="Contoh: mancing di Sungai Amazon">
+
+  <label>🎬 Jenis Konten</label>
+  <select id="pgJenis">
+    <option value="gambar">Prompt Gambar</option>
+    <option value="video">Prompt Video</option>
+  </select>
+
+  <label>✨ Gaya Visual</label>
+  <select id="pgStyle">
+    <option value="cinematic realistis">Cinematic Realistis</option>
+    <option value="photorealistic">Photorealistic</option>
+    <option value="cinematic adventure">Cinematic Adventure</option>
+    <option value="luxury premium">Luxury Premium</option>
+    <option value="dramatic">Dramatic Cinematic</option>
+  </select>
+
+  <label>👤 Karakter</label>
+  <input id="pgKarakter" type="text"
+    placeholder="Contoh: pria muda Indonesia, pakaian casual">
+
+  <label>📐 Rasio</label>
+  <select id="pgRasio">
+    <option value="9:16 vertical">9:16 — TikTok / Reels / Shorts</option>
+    <option value="16:9 horizontal">16:9 — YouTube</option>
+    <option value="1:1 square">1:1 — Profile / Instagram</option>
+  </select>
+
+  <label>🌤️ Suasana</label>
+  <select id="pgSuasana">
+    <option value="natural daylight">Natural Daylight</option>
+    <option value="golden hour">Golden Hour</option>
+    <option value="sunset">Sunset</option>
+    <option value="dramatic cloudy sky">Dramatic Cloudy Sky</option>
+    <option value="morning atmosphere">Morning Atmosphere</option>
+  </select>
+
+  <button class="pg-btn" onclick="generatePrompt()">
+    ✨ GENERATE PROMPT
+  </button>
+
+  <div class="pg-result">
+
+    <div class="pg-title">📝 Prompt</div>
+    <textarea id="pgOutput" readonly
+      placeholder="Prompt akan muncul di sini..."></textarea>
+
+    <button class="pg-btn pg-copy" onclick="copyPrompt()">
+      📋 COPY PROMPT
+    </button>
+
+    <div class="pg-title">🚫 Negative Prompt</div>
+    <textarea id="pgNegative" readonly></textarea>
+
+    <button class="pg-btn pg-copy" onclick="copyNegative()">
+      📋 COPY NEGATIVE PROMPT
+    </button>
+
+  </div>
+</div>
+
+<script>
+function generatePrompt(){
+
+  const tema = document.getElementById("pgTema").value.trim();
+  const jenis = document.getElementById("pgJenis").value;
+  const style = document.getElementById("pgStyle").value;
+  const karakter = document.getElementById("pgKarakter").value.trim();
+  const rasio = document.getElementById("pgRasio").value;
+  const suasana = document.getElementById("pgSuasana").value;
+
+  if(!tema){
+    alert("Masukkan tema atau ide terlebih dahulu.");
+    return;
+  }
+
+  let prompt = "";
+
+  if(jenis === "gambar"){
+
+    prompt =
+    "Create a " + style + " image of " + tema + ". " +
+    "Main subject: " + (karakter || "a realistic person") + ". " +
+    "The environment should look natural, immersive and highly detailed. " +
+    "Realistic lighting, realistic textures, natural skin details, " +
+    "authentic environment, cinematic composition, professional photography, " +
+    "depth of field, detailed background, realistic shadows, " +
+    suasana + ", ultra detailed, 4K, high quality. " +
+    "Composition optimized for " + rasio + ". " +
+    "No text, no logo, no watermark.";
+
+  }else{
+
+    prompt =
+    "Create a cinematic realistic video showing " + tema + ". " +
+    "Main character: " + (karakter || "a realistic person") + ". " +
+    "Natural human movement, realistic body proportions, realistic environment, " +
+    "dynamic camera movement, cinematic tracking shot, smooth motion, " +
+    "realistic lighting, natural shadows, detailed textures, " +
+    suasana + ", immersive atmosphere, photorealistic 4K quality. " +
+    "Camera movement should feel like a professional cinematic production. " +
+    "Maintain consistent character appearance, clothing and environment throughout the video. " +
+    "Vertical format " + rasio + ". " +
+    "No text, no logo, no watermark.";
+  }
+
+  const negative =
+    "cartoon, anime, illustration, painting, CGI look, low quality, blurry, " +
+    "pixelated, distorted face, deformed body, bad anatomy, extra fingers, " +
+    "missing fingers, extra limbs, duplicate person, duplicate objects, " +
+    "unrealistic lighting, unrealistic shadows, distorted background, " +
+    "oversaturated, text, logo, watermark";
+
+  document.getElementById("pgOutput").value = prompt;
+  document.getElementById("pgNegative").value = negative;
+}
+
+function copyPrompt(){
+  const text = document.getElementById("pgOutput").value;
+
+  if(!text){
+    alert("Generate prompt terlebih dahulu.");
+    return;
+  }
+
+  navigator.clipboard.writeText(text)
+    .then(() => alert("Prompt berhasil disalin!"))
+    .catch(() => alert("Gagal menyalin prompt."));
+}
+
+function copyNegative(){
+  const text = document.getElementById("pgNegative").value;
+
+  navigator.clipboard.writeText(text)
+    .then(() => alert("Negative prompt berhasil disalin!"))
+    .catch(() => alert("Gagal menyalin prompt."));
+}
+</script>
