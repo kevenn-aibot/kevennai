@@ -1,0 +1,324 @@
+<div id="cvMaker">
+<style>
+#cvMaker{font-family:Arial,sans-serif;max-width:1100px;margin:auto;color:#222}
+#cvMaker *{box-sizing:border-box}
+.cv-box{background:#f5f7fb;padding:20px;border-radius:15px}
+.cv-title{text-align:center;margin-bottom:20px}
+.cv-title h2{margin:0;color:#5b35d5}
+.cv-title p{margin:6px 0;color:#666}
+
+.cv-form{background:#fff;padding:20px;border-radius:14px;box-shadow:0 5px 20px #0001}
+.cv-form h3{margin:20px 0 10px;color:#5b35d5;border-bottom:2px solid #eee;padding-bottom:7px}
+.cv-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cv-form input,.cv-form textarea,.cv-form select{
+ width:100%;padding:11px;border:1px solid #ddd;border-radius:8px;
+ font-size:14px;background:#fff
+}
+.cv-form textarea{min-height:80px;resize:vertical}
+.full{grid-column:1/-1}
+
+.photo-box{text-align:center;margin-bottom:15px}
+#photoPreview{
+ width:110px;height:110px;border-radius:50%;object-fit:cover;
+ display:none;margin:10px auto;border:4px solid #5b35d5
+}
+
+.color-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.color-btn{width:32px;height:32px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 1px #ccc;cursor:pointer}
+.color-btn.active{box-shadow:0 0 0 3px #222}
+
+.cv-buttons{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.cv-buttons button{
+ border:0;padding:12px 18px;border-radius:9px;color:white;
+ font-weight:bold;cursor:pointer
+}
+.btn-preview{background:#5b35d5}
+.btn-pdf{background:#e53935}
+.btn-reset{background:#555}
+
+#cvPreview{
+ background:white;margin-top:25px;box-shadow:0 5px 25px #0002;
+ min-height:800px;display:none
+}
+
+.cv-header{
+ background:var(--cvcolor,#5b35d5);color:white;padding:35px;
+ display:flex;gap:25px;align-items:center
+}
+.cv-photo{
+ width:120px;height:120px;border-radius:50%;object-fit:cover;
+ border:4px solid white;display:none
+}
+.cv-name{font-size:30px;font-weight:bold}
+.cv-job{font-size:16px;margin-top:6px;opacity:.9}
+
+.cv-body{display:grid;grid-template-columns:32% 68%}
+.cv-left{background:#f2f2f7;padding:25px}
+.cv-right{padding:30px}
+.cv-section{margin-bottom:25px}
+.cv-section h3{
+ color:var(--cvcolor,#5b35d5);
+ border-bottom:2px solid var(--cvcolor,#5b35d5);
+ padding-bottom:6px;margin-bottom:12px
+}
+.cv-left .cv-section h3{font-size:17px}
+.cv-right p{line-height:1.6}
+.cv-item{margin-bottom:18px}
+.cv-item strong{display:block;font-size:16px}
+.cv-date{font-size:12px;color:#777;margin:4px 0}
+.skill{
+ background:#ddd;border-radius:10px;margin:8px 0;overflow:hidden;height:9px
+}
+.skill span{display:block;background:var(--cvcolor,#5b35d5);height:100%}
+
+@media(max-width:700px){
+ .cv-grid{grid-template-columns:1fr}
+ .full{grid-column:auto}
+ .cv-header{padding:25px;flex-direction:column;text-align:center}
+ .cv-body{grid-template-columns:1fr}
+ .cv-name{font-size:25px}
+}
+</style>
+
+<div class="cv-box">
+<div class="cv-title">
+<h2>✨ CV MAKER</h2>
+<p>Buat CV kreatif untuk lamaran kerja dalam beberapa menit</p>
+</div>
+
+<div class="cv-form">
+
+<h3>👤 Data Pribadi</h3>
+
+<div class="photo-box">
+<input type="file" id="foto" accept="image/*">
+<img id="photoPreview">
+</div>
+
+<div class="cv-grid">
+<input id="nama" placeholder="Nama lengkap">
+<input id="jabatan" placeholder="Posisi yang dilamar">
+<input id="email" placeholder="Email">
+<input id="telepon" placeholder="Nomor telepon">
+<input id="alamat" class="full" placeholder="Alamat">
+<textarea id="tentang" class="full" placeholder="Profil singkat / tentang saya"></textarea>
+</div>
+
+<h3>🎓 Pendidikan</h3>
+<div class="cv-grid">
+<input id="pendidikan" placeholder="Contoh: SMK Negeri 1">
+<input id="jurusan" placeholder="Jurusan">
+<input id="tahunPendidikan" placeholder="Tahun, contoh: 2020 - 2023">
+</div>
+
+<h3>💼 Pengalaman Kerja</h3>
+<div class="cv-grid">
+<input id="perusahaan" placeholder="Nama perusahaan">
+<input id="posisiKerja" placeholder="Posisi">
+<input id="tahunKerja" placeholder="Tahun kerja">
+<textarea id="deskripsiKerja" class="full" placeholder="Deskripsi pekerjaan / tanggung jawab"></textarea>
+</div>
+
+<h3>🛠️ Keahlian</h3>
+<div class="cv-grid">
+<input id="skill1" placeholder="Skill 1">
+<input id="skill2" placeholder="Skill 2">
+<input id="skill3" placeholder="Skill 3">
+<input id="skill4" placeholder="Skill 4">
+</div>
+
+<h3>🎨 Warna CV</h3>
+<div class="color-row">
+<div class="color-btn active" style="background:#5b35d5" onclick="setColor('#5b35d5',this)"></div>
+<div class="color-btn" style="background:#0077b6" onclick="setColor('#0077b6',this)"></div>
+<div class="color-btn" style="background:#00897b" onclick="setColor('#00897b',this)"></div>
+<div class="color-btn" style="background:#e65100" onclick="setColor('#e65100',this)"></div>
+<div class="color-btn" style="background:#d81b60" onclick="setColor('#d81b60',this)"></div>
+<div class="color-btn" style="background:#263238" onclick="setColor('#263238',this)"></div>
+</div>
+
+<div class="cv-buttons">
+<button class="btn-preview" onclick="buatCV()">👁️ Buat / Preview CV</button>
+<button class="btn-pdf" onclick="downloadPDF()">📄 Download PDF</button>
+<button class="btn-reset" onclick="resetCV()">🔄 Reset</button>
+</div>
+
+</div>
+
+<div id="cvPreview">
+
+<div class="cv-header">
+<img id="cvFoto" class="cv-photo">
+<div>
+<div class="cv-name" id="pNama">Nama Lengkap</div>
+<div class="cv-job" id="pJabatan">Posisi yang Dilamar</div>
+</div>
+</div>
+
+<div class="cv-body">
+
+<div class="cv-left">
+
+<div class="cv-section">
+<h3>CONTACT</h3>
+<p id="pEmail">Email</p>
+<p id="pTelepon">Telepon</p>
+<p id="pAlamat">Alamat</p>
+</div>
+
+<div class="cv-section">
+<h3>SKILLS</h3>
+<div id="pSkills"></div>
+</div>
+
+</div>
+
+<div class="cv-right">
+
+<div class="cv-section">
+<h3>PROFILE</h3>
+<p id="pTentang"></p>
+</div>
+
+<div class="cv-section">
+<h3>EXPERIENCE</h3>
+<div class="cv-item">
+<strong id="pPosisiKerja"></strong>
+<div class="cv-date" id="pTahunKerja"></div>
+<p id="pDeskripsiKerja"></p>
+</div>
+</div>
+
+<div class="cv-section">
+<h3>EDUCATION</h3>
+<div class="cv-item">
+<strong id="pPendidikan"></strong>
+<p id="pJurusan"></p>
+<div class="cv-date" id="pTahunPendidikan"></div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<script>
+let warna="#5b35d5";
+
+function setColor(c,el){
+ warna=c;
+ document.documentElement.style.setProperty("--cvcolor",c);
+ document.querySelectorAll(".color-btn").forEach(x=>x.classList.remove("active"));
+ el.classList.add("active");
+}
+
+document.getElementById("foto").addEventListener("change",function(e){
+ const file=e.target.files[0];
+ if(!file)return;
+
+ const reader=new FileReader();
+ reader.onload=function(ev){
+   document.getElementById("photoPreview").src=ev.target.result;
+   document.getElementById("photoPreview").style.display="block";
+   document.getElementById("cvFoto").src=ev.target.result;
+   document.getElementById("cvFoto").style.display="block";
+ }
+ reader.readAsDataURL(file);
+});
+
+function val(id){
+ return document.getElementById(id).value || "";
+}
+
+function buatCV(){
+
+ document.getElementById("pNama").innerText=val("nama")||"Nama Lengkap";
+ document.getElementById("pJabatan").innerText=val("jabatan")||"Posisi yang Dilamar";
+
+ document.getElementById("pEmail").innerText=val("email")||"Email";
+ document.getElementById("pTelepon").innerText=val("telepon")||"Nomor Telepon";
+ document.getElementById("pAlamat").innerText=val("alamat")||"Alamat";
+
+ document.getElementById("pTentang").innerText=
+ val("tentang")||"Tuliskan profil singkat Anda di sini.";
+
+ document.getElementById("pPendidikan").innerText=
+ val("pendidikan")||"Nama Sekolah / Universitas";
+
+ document.getElementById("pJurusan").innerText=
+ val("jurusan");
+
+ document.getElementById("pTahunPendidikan").innerText=
+ val("tahunPendidikan");
+
+ document.getElementById("pPosisiKerja").innerText=
+ (val("posisiKerja")||"Posisi Pekerjaan")+" - "+(val("perusahaan")||"Nama Perusahaan");
+
+ document.getElementById("pTahunKerja").innerText=
+ val("tahunKerja");
+
+ document.getElementById("pDeskripsiKerja").innerText=
+ val("deskripsiKerja");
+
+ let skills=[
+  val("skill1"),val("skill2"),val("skill3"),val("skill4")
+ ].filter(x=>x);
+
+ document.getElementById("pSkills").innerHTML=
+ skills.map((s,i)=>`
+ <div>${s}</div>
+ <div class="skill"><span style="width:${90-i*10}%"></span></div>
+ `).join("");
+
+ document.getElementById("cvPreview").style.display="block";
+
+ document.getElementById("cvPreview").scrollIntoView({
+   behavior:"smooth"
+ });
+}
+
+function downloadPDF(){
+
+ buatCV();
+
+ setTimeout(function(){
+
+  const element=document.getElementById("cvPreview");
+
+  const nama=val("nama")||"CV";
+
+  const options={
+   margin:0,
+   filename:"CV-"+nama.replace(/\s+/g,"-")+".pdf",
+   image:{type:"jpeg",quality:0.98},
+   html2canvas:{
+    scale:2,
+    useCORS:true
+   },
+   jsPDF:{
+    unit:"mm",
+    format:"a4",
+    orientation:"portrait"
+   }
+  };
+
+  html2pdf().set(options).from(element).save();
+
+ },500);
+}
+
+function resetCV(){
+
+ document.querySelectorAll(".cv-form input,.cv-form textarea").forEach(function(el){
+   if(el.type!=="file")el.value="";
+ });
+
+ document.getElementById("foto").value="";
+ document.getElementById("photoPreview").style.display="none";
+ document.getElementById("cvPreview").style.display="none";
+}
+</script>
